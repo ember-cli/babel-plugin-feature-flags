@@ -1,5 +1,5 @@
 {
-  "name": "babel-feature-flags",
+  "name": "babel-plugin-feature-flags",
   "version": "0.1.0",
   "description": "A babel transform for managing feature flags",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mmun/babel-feature-flags"
+    "url": "https://github.com/ember-cli/babel-plugin-feature-flags"
   },
   "keywords": [
     "babel",
@@ -17,9 +17,9 @@
   "author": "Martin Muñoz <im.mmun@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mmun/babel-feature-flags/issues"
+    "url": "https://github.com/ember-cli/babel-plugin-feature-flags/issues"
   },
-  "homepage": "https://github.com/mmun/babel-feature-flags",
+  "homepage": "https://github.com/ember-cli/babel-plugin-feature-flags",
   "devDependencies": {
     "babel-core": "^5.5.3",
     "mocha": "^2.2.5"

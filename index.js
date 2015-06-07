@@ -42,7 +42,7 @@ module.exports = function(options) {
       }
     }
 
-    return new babel.Transformer('babel-feature-flags', {
+    return new babel.Transformer('babel-plugin-feature-flags', {
       Program: {
         enter: function() {
           importDeclarations = [];

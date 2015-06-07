@@ -18,7 +18,7 @@ function testFixture(name, options) {
   });
 }
 
-describe('babel-feature-flags', function() {
+describe('babel-plugin-feature-flags', function() {
   var options = {
     import: {
       module: 'features'
