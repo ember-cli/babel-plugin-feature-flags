@@ -50,8 +50,22 @@ module.exports = function(options) {
         },
         exit: function() {
           if (removeImportDeclarations) {
+            var importName = options.import.name;
+
             importDeclarations.forEach(function(node) {
-              node.dangerouslyRemove();
+              node.get('specifiers').forEach(function(specifier) {
+                if (specifier.isImportDefaultSpecifier() && importName === 'default') {
+                  specifier.dangerouslyRemove();
+                } else if (specifier.isImportNamespaceSpecifier() && importName === '*') {
+                  specifier.dangerouslyRemove();
+                } else if (specifier.isImportSpecifier() && importName === specifier.node.imported.name) {
+                  specifier.dangerouslyRemove();
+                }
+              });
+
+              if (node.get('specifiers').length === 0) {
+                node.dangerouslyRemove();
+              }
             });
           }
 

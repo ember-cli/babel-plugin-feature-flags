@@ -48,4 +48,5 @@ describe('babel-plugin-feature-flags', function() {
   testFixture('nested/skipped-enabled', options);
   testFixture('nested/skipped-disabled', options);
   testFixture('nested/skipped-skipped', options);
+  testFixture('preserves-other-imports', options);
 });
