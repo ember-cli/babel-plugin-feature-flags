@@ -24,29 +24,29 @@ describe('babel-plugin-feature-flags', function() {
       module: 'features'
     },
     features: {
-      enabled: true,
-      disabled: false,
-      skipped: 'skip'
+      enabled: 'enabled',
+      disabled: 'disabled',
+      dynamic: 'dynamic'
     }
   }
 
   testFixture('if/enabled', options);
   testFixture('if/disabled', options);
-  testFixture('if/skipped', options);
+  testFixture('if/dynamic', options);
   testFixture('else/enabled', options);
   testFixture('else/disabled', options);
-  testFixture('else/skipped', options);
+  testFixture('else/dynamic', options);
   testFixture('not-if/enabled', options);
   testFixture('not-if/disabled', options);
-  testFixture('not-if/skipped', options);
+  testFixture('not-if/dynamic', options);
   testFixture('nested/enabled-enabled', options);
   testFixture('nested/enabled-disabled', options);
-  testFixture('nested/enabled-skipped', options);
+  testFixture('nested/enabled-dynamic', options);
   testFixture('nested/disabled-enabled', options);
   testFixture('nested/disabled-disabled', options);
-  testFixture('nested/disabled-skipped', options);
-  testFixture('nested/skipped-enabled', options);
-  testFixture('nested/skipped-disabled', options);
-  testFixture('nested/skipped-skipped', options);
+  testFixture('nested/disabled-dynamic', options);
+  testFixture('nested/dynamic-enabled', options);
+  testFixture('nested/dynamic-disabled', options);
+  testFixture('nested/dynamic-dynamic', options);
   testFixture('preserves-other-imports', options);
 });

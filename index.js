@@ -10,8 +10,17 @@ module.exports = function(options) {
 
   Object.keys(options.features).forEach(function(feature) {
     var value = options.features[feature];
-    if (value !== true && value !== false && value !== 'skip') {
-      throw new Error("Each feature in options.features must have a value of `true`, `false` or `skip`.");
+
+    if (typeof value === 'string') {
+      if (value === 'enabled') {
+        options.features[feature] = true;
+      } else if (value === 'disabled') {
+        options.features[feature] = false;
+      } else if (value === 'dynamic') {
+        options.features[feature] = null;
+      } else {
+        throw new Error("An unknown feature state '" + value + "' was detected for '" + feature + "'. Valid values are 'enabled', 'disabled' and 'dynamic'");
+      }
     }
   });
 
@@ -28,9 +37,7 @@ module.exports = function(options) {
         if (feature in options.features) {
           var value = options.features[feature];
 
-          if (value === 'skip') {
-            // Do nothing
-          } else if (value === !invert) {
+          if (value === !invert) {
             var consequent = ifStatement.node.consequent;
             ifStatement.replaceWithMultiple(consequent.body);
           } else if (value === !!invert) {

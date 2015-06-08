@@ -1,6 +1,6 @@
 import isEnabled from 'features';
 
-if (isEnabled('skipped')) {
+if (isEnabled('dynamic')) {
   'a';
   if (isEnabled('disabled')) {
     'b';
