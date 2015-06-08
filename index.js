@@ -11,7 +11,7 @@ module.exports = function(options) {
   Object.keys(options.features).forEach(function(feature) {
     var value = options.features[feature];
     if (value !== true && value !== false && value !== 'skip') {
-      throw new Error("Each feature in options.features must have a value of `true`, `false` or `skipped`.");
+      throw new Error("Each feature in options.features must have a value of `true`, `false` or `skip`.");
     }
   });
 
