@@ -19,77 +19,44 @@ module.exports = function(options) {
     var importDeclarations;
     var removeImportDeclarations;
 
-    function acceptFeatureCall(callExpression, ifStatement, invert) {
+    function acceptFeatureCall(callExpression, ifStatement, invert, file) {
       var callee = callExpression.get('callee');
 
       if (callee.referencesImport(options.import.module, options.import.name)) {
         var feature = callExpression.node.arguments[0].value;
-        var value = options.features[feature];
 
-        if (value === 'skip') {
-          removeImportDeclarations = false;
-        } else if (value === !invert) {
-          var consequent = ifStatement.node.consequent;
-          ifStatement.replaceWithMultiple(consequent.body);
-        } else if (value === !!invert) {
-          var alternate = ifStatement.node.alternate;
-          if (alternate) {
-            ifStatement.replaceWithMultiple(alternate.body);
-          } else {
-            ifStatement.dangerouslyRemove();
+        if (feature in options.features) {
+          var value = options.features[feature];
+
+          if (value === 'skip') {
+            // Do nothing
+          } else if (value === !invert) {
+            var consequent = ifStatement.node.consequent;
+            ifStatement.replaceWithMultiple(consequent.body);
+          } else if (value === !!invert) {
+            var alternate = ifStatement.node.alternate;
+            if (alternate) {
+              ifStatement.replaceWithMultiple(alternate.body);
+            } else {
+              ifStatement.dangerouslyRemove();
+            }
           }
+        } else {
+          file.log.warn("An unknown feature '" + feature + "'' was encountered and removed")
         }
       }
     }
 
     return new babel.Transformer('babel-plugin-feature-flags', {
-      Program: {
-        enter: function() {
-          importDeclarations = [];
-          removeImportDeclarations = true;
-        },
-        exit: function() {
-          if (removeImportDeclarations) {
-            var importName = options.import.name;
-
-            importDeclarations.forEach(function(node) {
-              node.get('specifiers').forEach(function(specifier) {
-                if (specifier.isImportDefaultSpecifier() && importName === 'default') {
-                  specifier.dangerouslyRemove();
-                } else if (specifier.isImportNamespaceSpecifier() && importName === '*') {
-                  specifier.dangerouslyRemove();
-                } else if (specifier.isImportSpecifier() && importName === specifier.node.imported.name) {
-                  specifier.dangerouslyRemove();
-                }
-              });
-
-              if (node.get('specifiers').length === 0) {
-                node.dangerouslyRemove();
-              }
-            });
-          }
-
-          importDeclarations = undefined;
-          removeImportDeclarations = undefined;
-        }
-      },
-
-      ImportDeclaration: function(node) {
-        var name = node.source.value;
-        if (name === options.import.module) {
-          importDeclarations.push(this);
-        }
-      },
-
-      IfStatement: function() {
+      IfStatement: function(node, parent, scope, file) {
         var test = this.get('test');
         if (test.isUnaryExpression() && test.node.operator === '!') {
           var argument = test.get('argument');
           if (argument.isCallExpression()) {
-            acceptFeatureCall(argument, this, true);
+            acceptFeatureCall(argument, this, true, file);
           }
         } else if (test.isCallExpression()) {
-          acceptFeatureCall(test, this, false);          
+          acceptFeatureCall(test, this, false, file);          
         }
       }
     });
