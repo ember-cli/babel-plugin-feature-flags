@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-feature-flags",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A babel transform for managing feature flags",
   "main": "index.js",
   "scripts": {
