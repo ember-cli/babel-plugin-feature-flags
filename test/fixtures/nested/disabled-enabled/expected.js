@@ -5,3 +5,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 var _features = require('features');
 
 var _features2 = _interopRequireDefault(_features);
+
+if (false) {
+  'a';
+  if (true) {
+    'b';
+  }
+  'c';
+}
