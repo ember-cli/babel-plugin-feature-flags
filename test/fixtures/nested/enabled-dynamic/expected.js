@@ -6,8 +6,10 @@ var _features = require('features');
 
 var _features2 = _interopRequireDefault(_features);
 
-'a';
-if ((0, _features2['default'])('dynamic')) {
-  'b';
+if (true) {
+  'a';
+  if ((0, _features2['default'])('dynamic')) {
+    'b';
+  }
+  'c';
 }
-'c';

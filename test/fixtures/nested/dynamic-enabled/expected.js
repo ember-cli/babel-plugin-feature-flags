@@ -8,8 +8,8 @@ var _features2 = _interopRequireDefault(_features);
 
 if ((0, _features2['default'])('dynamic')) {
   'a';
-
-  'b';
-
+  if (true) {
+    'b';
+  }
   'c';
 }

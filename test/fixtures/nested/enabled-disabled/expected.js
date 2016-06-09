@@ -6,6 +6,10 @@ var _features = require('features');
 
 var _features2 = _interopRequireDefault(_features);
 
-'a';
-
-'c';
+if (true) {
+  'a';
+  if (false) {
+    'b';
+  }
+  'c';
+}

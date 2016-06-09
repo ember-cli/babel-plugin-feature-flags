@@ -6,4 +6,8 @@ var _features = require('features');
 
 var _features2 = _interopRequireDefault(_features);
 
-'enabled';
+if (true) {
+  'enabled';
+} else {
+  'disabled';
+}

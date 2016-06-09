@@ -25,47 +25,34 @@ module.exports = function(options) {
   });
 
   return function(babel) {
-    var importDeclarations;
-    var removeImportDeclarations;
-
-    function acceptFeatureCall(callExpression, ifStatement, invert, file) {
-      var callee = callExpression.get('callee');
-
-      if (callee.referencesImport(options.import.module, options.import.name)) {
-        var feature = callExpression.node.arguments[0].value;
-
-        if (feature in options.features) {
-          var value = options.features[feature];
-
-          if (value === !invert) {
-            var consequent = ifStatement.node.consequent;
-            ifStatement.replaceWithMultiple(consequent.body);
-          } else if (value === !!invert) {
-            var alternate = ifStatement.node.alternate;
-            if (alternate) {
-              ifStatement.replaceWithMultiple(alternate.body);
-            } else {
-              ifStatement.dangerouslyRemove();
-            }
-          }
-        } else {
-          file.log.warn("An unknown feature '" + feature + "'' was encountered and removed")
-        }
-      }
-    }
+    var t = babel.types;
 
     return new babel.Transformer('babel-plugin-feature-flags', {
-      IfStatement: function(node, parent, scope, file) {
-        var test = this.get('test');
-        if (test.isUnaryExpression() && test.node.operator === '!') {
-          var argument = test.get('argument');
-          if (argument.isCallExpression()) {
-            acceptFeatureCall(argument, this, true, file);
+      CallExpression: function(node, parent, scope, file) {
+        var callee = this.get('callee');
+        if (callee.referencesImport(options.import.module, options.import.name)) {
+          var featureName = getFeatureName(node);
+          if (featureName in options.features) {
+            var value = options.features[featureName];
+
+            if (typeof value === 'boolean') {
+              this.replaceWith(t.literal(value));
+            }
+          } else {
+            file.log.error("An unknown feature '" + featureName + "'' was encountered");
           }
-        } else if (test.isCallExpression()) {
-          acceptFeatureCall(test, this, false, file);          
         }
       }
     });
   };
 };
+
+function getFeatureName(callExpression) {
+  var argument = callExpression.arguments[0];
+
+  if (callExpression.arguments.length !== 1 || argument.type !== 'Literal' || typeof argument.value !== 'string') {
+    file.log.error("Feature flag function should be called with a single string literal argument");
+  }
+
+  return argument.value;
+}

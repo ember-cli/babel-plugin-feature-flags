@@ -39,6 +39,9 @@ describe('babel-plugin-feature-flags', function() {
   testFixture('not-if/enabled', options);
   testFixture('not-if/disabled', options);
   testFixture('not-if/dynamic', options);
+  testFixture('ternary/enabled', options);
+  testFixture('ternary/disabled', options);
+  testFixture('ternary/dynamic', options);
   testFixture('nested/enabled-enabled', options);
   testFixture('nested/enabled-disabled', options);
   testFixture('nested/enabled-dynamic', options);

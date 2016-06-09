@@ -6,6 +6,4 @@ var _features = require('features');
 
 var _features2 = _interopRequireDefault(_features);
 
-if (!true) {
-  'disabled';
-}
+var x = (0, _features2['default'])('dynamic') ? 'enabled' : 'disabled';
