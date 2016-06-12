@@ -1,11 +1,11 @@
 module.exports = function(babel) {
   var t = babel.types;
-  var options;
 
   return {
     visitor: {
       Program: function(path, state) {
-        options = state.opts || {};
+        var options = state.opts;
+
         options.features = options.features || {};
         options.import = options.import || {};
         options.import.name = options.import.name || 'default';
@@ -31,7 +31,9 @@ module.exports = function(babel) {
         });
       },
 
-      CallExpression: function(path) {
+      CallExpression: function(path, state) {
+        var options = state.opts;
+
         var callee = path.get('callee');
         if (callee.referencesImport(options.import.module, options.import.name)) {
           var featureName = getFeatureName(path.node);
