@@ -12,12 +12,11 @@ function testFixture(name, options) {
     var expected = fs.readFileSync(expectedPath).toString();
     var result = babel.transformFileSync(fixturePath, {
       plugins: [
-        'transform-es2015-modules-commonjs',
         [applyFeatureFlags, options],
       ],
     });
 
-    assert.strictEqual(result.code, expected);
+    assert.strictEqual(result.code + '\n', expected);
   });
 }
 
