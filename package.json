@@ -3,6 +3,9 @@
   "version": "0.3.0",
   "description": "A babel transform for managing feature flags",
   "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "scripts": {
     "test": "mocha"
   },
