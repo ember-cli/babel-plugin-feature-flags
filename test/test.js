@@ -28,7 +28,7 @@ describe('babel-plugin-feature-flags', function() {
       disabled: 'disabled',
       dynamic: 'dynamic'
     }
-  }
+  };
 
   testFixture('if/enabled', options);
   testFixture('if/disabled', options);
@@ -52,4 +52,40 @@ describe('babel-plugin-feature-flags', function() {
   testFixture('nested/dynamic-disabled', options);
   testFixture('nested/dynamic-dynamic', options);
   testFixture('preserves-other-imports', options);
+
+  it('provides a baseDir', function() {
+    var expectedPath = path.join(__dirname, '..');
+
+    var featureFlagInstance = applyFeatureFlags({
+      import: {
+        module: 'features'
+      }
+    });
+
+    assert.equal(featureFlagInstance.baseDir(), expectedPath);
+  });
+
+  it('includes options in `cacheKey`', function() {
+    var first = applyFeatureFlags({
+      import: {
+        module: 'features'
+      },
+      features: {
+        foo: 'enabled',
+        bar: 'disabled'
+      }
+    });
+
+    var second = applyFeatureFlags({
+      import: {
+        module: 'features'
+      },
+      features: {
+        foo: 'enabled',
+        bar: 'dynamic'
+      }
+    });
+
+    assert.notEqual(first.cacheKey(), second.cacheKey());
+  });
 });

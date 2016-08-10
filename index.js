@@ -1,3 +1,5 @@
+var stringify = require('json-stable-stringify');
+
 module.exports = function(options) {
   options = options || {};
   options.features = options.features || {};
@@ -24,7 +26,7 @@ module.exports = function(options) {
     }
   });
 
-  return function(babel) {
+  function babelPluginFeatureFlags(babel) {
     var t = babel.types;
 
     return new babel.Transformer('babel-plugin-feature-flags', {
@@ -44,7 +46,17 @@ module.exports = function(options) {
         }
       }
     });
+  }
+
+  babelPluginFeatureFlags.baseDir = function() {
+    return __dirname;
   };
+
+  babelPluginFeatureFlags.cacheKey = function() {
+    return stringify(options);
+  };
+
+  return babelPluginFeatureFlags;
 };
 
 function getFeatureName(callExpression) {
