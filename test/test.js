@@ -64,6 +64,20 @@ describe('babel-plugin-feature-flags', function() {
     }
   });
 
+  testFixture('multiple-imports', {
+    imports: [{
+      module: 'features'
+    }, {
+      module: 'other-features',
+      name: 'isFeatureEnabled'
+    }],
+    features: {
+      enabled: 'enabled',
+      disabled: 'disabled',
+      dynamic: 'dynamic'
+    }
+  });
+
   it('provides a baseDir', function() {
     var expectedPath = path.join(__dirname, '..');
 
