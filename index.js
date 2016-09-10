@@ -3,12 +3,19 @@ var stringify = require('json-stable-stringify');
 module.exports = function(options) {
   options = options || {};
   options.features = options.features || {};
-  options.import = options.import || {};
-  options.import.name = options.import.name || 'default';
+  options.imports = options.imports || [];
 
-  if (typeof options.import.module !== 'string') {
-    throw new Error("options.import.module must be the name of a module, e.g. 'my-app/features'");
+  if (options.import) {
+    options.imports.push(options.import);
   }
+
+  options.imports.forEach(function(_import) {
+    _import.name = _import.name || 'default';
+
+    if (typeof _import.module !== 'string') {
+      throw new Error("options.import.module must be the name of a module, e.g. 'my-app/features'");
+    }
+  });
 
   Object.keys(options.features).forEach(function(feature) {
     var value = options.features[feature];
@@ -32,18 +39,20 @@ module.exports = function(options) {
     return new babel.Transformer('babel-plugin-feature-flags', {
       CallExpression: function(node, parent, scope, file) {
         var callee = this.get('callee');
-        if (callee.referencesImport(options.import.module, options.import.name)) {
-          var featureName = getFeatureName(node);
-          if (featureName in options.features) {
-            var value = options.features[featureName];
+        options.imports.forEach(function(_import) {
+          if (callee.referencesImport(_import.module, _import.name)) {
+            var featureName = getFeatureName(node);
+            if (featureName in options.features) {
+              var value = options.features[featureName];
 
-            if (typeof value === 'boolean') {
-              this.replaceWith(t.literal(value));
+              if (typeof value === 'boolean') {
+                this.replaceWith(t.literal(value));
+              }
+            } else {
+              file.log.error("An unknown feature '" + featureName + "'' was encountered");
             }
-          } else {
-            file.log.error("An unknown feature '" + featureName + "'' was encountered");
           }
-        }
+        }.bind(this));
       }
     });
   }

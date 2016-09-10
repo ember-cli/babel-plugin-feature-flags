@@ -52,6 +52,31 @@ describe('babel-plugin-feature-flags', function() {
   testFixture('nested/dynamic-disabled', options);
   testFixture('nested/dynamic-dynamic', options);
   testFixture('preserves-other-imports', options);
+  testFixture('import-name', {
+    import: {
+      module: 'features',
+      name: 'isFeatureEnabled'
+    },
+    features: {
+      enabled: 'enabled',
+      disabled: 'disabled',
+      dynamic: 'dynamic'
+    }
+  });
+
+  testFixture('multiple-imports', {
+    imports: [{
+      module: 'features'
+    }, {
+      module: 'other-features',
+      name: 'isFeatureEnabled'
+    }],
+    features: {
+      enabled: 'enabled',
+      disabled: 'disabled',
+      dynamic: 'dynamic'
+    }
+  });
 
   it('provides a baseDir', function() {
     var expectedPath = path.join(__dirname, '..');
