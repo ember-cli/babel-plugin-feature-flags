@@ -4,3 +4,12 @@ node_js:
   - "0.12"
   - "4"
   - "6"
+
+deploy:
+  provider: npm
+  email: stefan.penner+ember-cli@gmail.com
+  api_key:
+    secure: aNnum9qCWGvfZScAmQ5yRcgfXhk7i/v4Dl0v77ZDui4C6V/YM0zCVbSprqyxlq72D6DK9R3NVNZyMqYwnUv5GwNDFaz3bZccWT4EnDFMrUMha1UXba9ddH2elO9CaWaaJQcEpMwQ8Z3Iw5TQgqwBm84ypsh8HueGLzTkLodvszvZEVeswoWTIfoDk+RvAG+g/svn7oAJUG4ovwdnz7y2JRKyh69TOprjaV12vos7CuY0FhzFoPUIJSKatwK6avMikqDzWgF95Bkej+Ni96lTRiRPqWmr5vgHbgR+WNdfXTxnwM7Y+0qaqlfseW0mIzB6R7yPoiVSRKctLr0UpZpRM4gPm83Q2qWWKfJLfsKgb30fzP2defIKN6/LHatmVNEKup/C3qwoG860KkzHI2UOjeKPvkLbo2/pVaS2Flz2QZASfAKZzXFOECY/M9FYZOseBy05WQEvDbOK4848HwQ7+nhqQCEpqA6ZXaDUg+OETgISCIS/Xl8JL1WAIuR0wGZKNgaYUzki6wNZYCBy10Z8/rq30eaYkVbELOONLbAPbAsSoH2vu4C5SIIKYot5Hsn4cdVbk2O6857uiZd/jm6CY0aEfRRTWuizA74qHwfArcLMYk2SU0uQU5i07q7yYBvSl14mCoHftbM8jKN8I2EnbPsjpAALVPvToB3PvZizJB4=
+  on:
+    tags: true
+    repo: ember-cli/babel-plugin-feature-flags
