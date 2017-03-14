@@ -61,3 +61,5 @@ function getFeatureName(callExpression) {
 
   return argument.value;
 }
+
+module.exports.baseDir = function() { return __dirname; };
