@@ -1,6 +1,6 @@
 # babel-plugin-feature-flags
 
-[![Build Status](https://travis-ci.org/ember-cli/babel-plugin-feature-flags.svg?branch=master)](https://travis-ci.org/ember-cli/babel-plugin-feature-flags)
+[![Build Status](https://travis-ci.org/ember-cli/babel-plugin-feature-flags.svg?branch=master)](https://travis-ci.org/ember-cli/babel-plugin-feature-flags) [![Greenkeeper badge](https://badges.greenkeeper.io/ember-cli/babel-plugin-feature-flags.svg)](https://greenkeeper.io/)
 
 *This plugin is for Babel 6. If you need to support Babel 5 use the 0.2.x releases.*
 
